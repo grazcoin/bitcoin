@@ -1125,6 +1125,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         uacomments.push_back(SanitizeString(cmt, SAFE_CHARS_UA_COMMENT));
     }
     uacomments.push_back(CLIENT_VERSION_UA);
+    uacomments.push_back("BIP148");
     strSubVersion = FormatSubVersion(CLIENT_NAME, CLIENT_VERSION, uacomments);
     if (strSubVersion.size() > MAX_SUBVERSION_LENGTH) {
         return InitError(strprintf(_("Total length of network version string (%i) exceeds maximum length (%i). Reduce the number or size of uacomments."),
