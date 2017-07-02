@@ -2579,14 +2579,6 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
         flags |= SCRIPT_VERIFY_NULLDUMMY;
     }
 
-
-    // Check if Segregated Witness is Locked In
-    bool IsWitnessLockedIn(const CBlockIndex* pindexPrev, const Consensus::Params& params)
-    {
-        LOCK(cs_main);
-        return (VersionBitsState(pindexPrev, params, Consensus::DEPLOYMENT_SEGWIT, versionbitscache) == THRESHOLD_LOCKED_IN);
-    }
-
     // BIP148 mandatory segwit signalling.
     int64_t nMedianTimePast = pindex->GetMedianTimePast();
     if ( (nMedianTimePast >= 1501545600) &&  // Tue 01 Aug 2017 00:00:00 UTC
@@ -3754,6 +3746,14 @@ bool IsWitnessEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& pa
     LOCK(cs_main);
     return (VersionBitsState(pindexPrev, params, Consensus::DEPLOYMENT_SEGWIT, versionbitscache) == THRESHOLD_ACTIVE);
 }
+
+// Check if Segregated Witness is Locked In
+bool IsWitnessLockedIn(const CBlockIndex* pindexPrev, const Consensus::Params& params)
+{
+    LOCK(cs_main);
+    return (VersionBitsState(pindexPrev, params, Consensus::DEPLOYMENT_SEGWIT, versionbitscache) == THRESHOLD_LOCKED_IN);
+}
+
 
 // Compute at which vout of the block's coinbase transaction the witness
 // commitment occurs, or -1 if not found.
